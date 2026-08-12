@@ -1,3 +1,5 @@
+CREATE OR REPLACE TABLE `learning-data-platform-505213.learning.task_progress_summary` AS
+
 WITH learning_data AS (
     SELECT
         p.task_id,
