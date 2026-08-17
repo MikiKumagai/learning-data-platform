@@ -1,3 +1,4 @@
+-- 実行結果をテーブルとして作る
 {{ config(materialized='table') }}
 
 SELECT
