@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: learning
+    database: learning-data-platform-505213
+    schema: learning
+
+    tables:
+      - name: task
+      - name: progress
+      - name: progress_type
+      - name: progress_unit
