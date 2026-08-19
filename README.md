@@ -6,9 +6,7 @@
 
 学習管理アプリでは、SQLiteに学習タスクや進捗データを保存しています。
 
-このプロジェクトでは、SQLiteに蓄積したデータをBigQueryに取り込み、複数のテーブルを結合・加工することで、分析しやすいデータを作成します。
-
-今後はdbtなども利用し、データの変換・管理について学習していく予定です。
+このプロジェクトでは、SQLiteに蓄積したデータをBigQueryに取り込み、SQLとdbtで複数のテーブルを結合・加工することで、分析しやすいデータを作成します。
 
 ## Architecture
 
@@ -71,11 +69,63 @@ sql/
 └── learning_progress.sql
 ```
 
+## dbt
+
+`dbt/learning_data_platform/` ディレクトリにdbtプロジェクトを配置しています。
+
+```text
+dbt/learning_data_platform/
+├── dbt_project.yml
+└── models/
+    ├── staging/
+    ├── intermediate/
+    └── marts/
+```
+
+### Setup
+
+dbtコマンドが見つからない場合は、仮想環境を作成してdbt-bigqueryをインストールします。
+
+```bash
+cd dbt
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install dbt-bigquery
+```
+
+BigQueryに接続するため、`~/.dbt/profiles.yml` に `learning_data_platform` プロファイルを用意します。
+
+```yaml
+learning_data_platform:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: learning-data-platform-505213
+      dataset: learning
+      threads: 4
+      timeout_seconds: 300
+```
+
+### Run
+
+dbtは `dbt_project.yml` があるディレクトリで実行します。
+
+```bash
+cd dbt/learning_data_platform
+source ../.venv/bin/activate
+dbt debug
+dbt run
+dbt test
+```
+
+リポジトリ直下で `dbt run` を実行すると、`dbt_project.yml` が見つからず失敗します。
+
 ## Future Plans
 
 今後、以下について学習・実装する予定です。
 
-- dbtによるデータ変換処理の管理
 - データマートの設計
 - AWSなどのクラウドサービスを利用したデータ基盤
 - データパイプラインの自動化
