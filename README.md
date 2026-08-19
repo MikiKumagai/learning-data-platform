@@ -61,12 +61,13 @@ tasks
 ## SQL
 
 `sql/` ディレクトリにBigQueryで使用したSQLを保存しています。
+dbt導入前の練習SQLです。
 
 ```text
 sql/
-├── create_progress_types.sql
-├── create_progress_units.sql
-└── learning_progress.sql
+├── 01_join_learning_data.sql
+├── 02_create_task_progress_summary.sql
+└── 03_check_data_quality.sql
 ```
 
 ## dbt
