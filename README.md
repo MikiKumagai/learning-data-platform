@@ -50,13 +50,15 @@ tasks
 | `progress_types` | 進捗形式のマスタ（累計・差分） |
 | `progress_units` | 進捗単位のマスタ（ページ・問・章・セクション） |
 
-## What I Have Learned
+## Learning Progress
 
 - BigQueryの基本的な使い方
 - CSVからBigQueryへのデータ取り込み
 - BigQueryにおけるテーブル・データセットの構造
 - SQLによる複数テーブルのJOIN
 - アプリケーション用データを分析しやすい形に変換する方法
+- dbtによるデータ変換・データモデル構築
+- staging / intermediate / marts によるデータモデルの整理
 
 ## SQL
 
@@ -83,54 +85,17 @@ dbt/learning_data_platform/
     └── marts/
 ```
 
-### Setup
-
-dbtコマンドが見つからない場合は、仮想環境を作成してdbt-bigqueryをインストールします。
-
-```bash
-cd dbt
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install dbt-bigquery
-```
-
-BigQueryに接続するため、`~/.dbt/profiles.yml` に `learning_data_platform` プロファイルを用意します。
-
-```yaml
-learning_data_platform:
-  target: dev
-  outputs:
-    dev:
-      type: bigquery
-      method: oauth
-      project: learning-data-platform-505213
-      dataset: learning
-      threads: 4
-      timeout_seconds: 300
-```
-
-### Run
-
-dbtは `dbt_project.yml` があるディレクトリで実行します。
-
-```bash
-cd dbt/learning_data_platform
-source ../.venv/bin/activate
-dbt debug
-dbt run
-dbt test
-```
-
-リポジトリ直下で `dbt run` を実行すると、`dbt_project.yml` が見つからず失敗します。
+セットアップと実行手順は `dbt/learning_data_platform/README.md` にまとめています。
 
 ## Future Plans
 
-今後、以下について学習・実装する予定です。
-
-- データマートの設計
-- AWSなどのクラウドサービスを利用したデータ基盤
+- データマートの設計・実装
+- SQLを用いたデータ分析
+- Pythonを用いたデータ分析・機械学習
+- AWSなどのクラウドサービスを利用したデータ基盤の構築
 - データパイプラインの自動化
 - CI/CDによるデータ基盤の運用
+- データ品質管理・テスト
 
 ## Background
 
