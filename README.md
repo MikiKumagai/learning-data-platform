@@ -6,9 +6,7 @@
 
 学習管理アプリでは、SQLiteに学習タスクや進捗データを保存しています。
 
-このプロジェクトでは、SQLiteに蓄積したデータをBigQueryに取り込み、複数のテーブルを結合・加工することで、分析しやすいデータを作成します。
-
-今後はdbtなども利用し、データの変換・管理について学習していく予定です。
+このプロジェクトでは、SQLiteに蓄積したデータをBigQueryに取り込み、SQLとdbtで複数のテーブルを結合・加工することで、分析しやすいデータを作成します。
 
 ## Architecture
 
@@ -52,34 +50,52 @@ tasks
 | `progress_types` | 進捗形式のマスタ（累計・差分） |
 | `progress_units` | 進捗単位のマスタ（ページ・問・章・セクション） |
 
-## What I Have Learned
+## Learning Progress
 
 - BigQueryの基本的な使い方
 - CSVからBigQueryへのデータ取り込み
 - BigQueryにおけるテーブル・データセットの構造
 - SQLによる複数テーブルのJOIN
 - アプリケーション用データを分析しやすい形に変換する方法
+- dbtによるデータ変換・データモデル構築
+- staging / intermediate / marts によるデータモデルの整理
 
 ## SQL
 
 `sql/` ディレクトリにBigQueryで使用したSQLを保存しています。
+dbt導入前の練習SQLです。
 
 ```text
 sql/
-├── create_progress_types.sql
-├── create_progress_units.sql
-└── learning_progress.sql
+├── 01_join_learning_data.sql
+├── 02_create_task_progress_summary.sql
+└── 03_check_data_quality.sql
 ```
+
+## dbt
+
+`dbt/learning_data_platform/` ディレクトリにdbtプロジェクトを配置しています。
+
+```text
+dbt/learning_data_platform/
+├── dbt_project.yml
+└── models/
+    ├── staging/
+    ├── intermediate/
+    └── marts/
+```
+
+セットアップと実行手順は `dbt/learning_data_platform/README.md` にまとめています。
 
 ## Future Plans
 
-今後、以下について学習・実装する予定です。
-
-- dbtによるデータ変換処理の管理
-- データマートの設計
-- AWSなどのクラウドサービスを利用したデータ基盤
+- データマートの設計・実装
+- SQLを用いたデータ分析
+- Pythonを用いたデータ分析・機械学習
+- AWSなどのクラウドサービスを利用したデータ基盤の構築
 - データパイプラインの自動化
 - CI/CDによるデータ基盤の運用
+- データ品質管理・テスト
 
 ## Background
 
