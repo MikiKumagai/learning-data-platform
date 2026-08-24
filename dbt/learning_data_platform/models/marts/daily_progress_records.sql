@@ -1,3 +1,5 @@
+-- 進捗が記録された日ごとの記録件数と累計進捗値を集計するマート。
+-- daily_learning とは異なり、ここでは「その日に記録された累計値」を見る。
 SELECT
     progress_date,
     COUNT(*) AS progress_count,

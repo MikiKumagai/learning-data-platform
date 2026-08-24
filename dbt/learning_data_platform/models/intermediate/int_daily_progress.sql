@@ -1,3 +1,4 @@
+-- タスクごとの累計進捗から、各記録日の増分を計算する中間モデル。
 WITH progress_with_previous AS (
     SELECT
         task_id,
