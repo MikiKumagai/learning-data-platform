@@ -61,6 +61,7 @@ tasks
 - staging / intermediate / marts によるデータモデルの整理
 - データマートの設計・実装
 - SQLを用いたデータ分析
+- Pythonを用いたデータ分析・機械学習
 
 ## SQL
 
@@ -91,7 +92,6 @@ dbt/learning_data_platform/
 
 ## Future Plans
 
-- Pythonを用いたデータ分析・機械学習
 - AWSなどのクラウドサービスを利用したデータ基盤の構築
 - データパイプラインの自動化
 - CI/CDによるデータ基盤の運用
