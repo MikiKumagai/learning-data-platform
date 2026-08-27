@@ -41,7 +41,7 @@ jobs:
           pip install dbt-bigquery
           pip install sqlfluff sqlfluff-templater-dbt
 
-      # dbt --version 確認
+      # dbt version 確認
       - name: Check dbt
         run: dbt --version
 
