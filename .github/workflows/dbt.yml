@@ -35,7 +35,7 @@ jobs:
         with:
           python-version: "3.13"
 
-      # dbt-bigquery をインストール
+      # 各ツール をインストール
       - name: Install tools
         run: |
           pip install dbt-bigquery
@@ -62,12 +62,15 @@ jobs:
                 location: asia-northeast2
           EOF
 
-      # dbt debug
       - name: Debug dbt
         run: dbt debug
         working-directory: dbt/learning_data_platform
 
-      # SQLのフォーマットチェック
       - name: Lint SQL
         run: sqlfluff lint dbt/learning_data_platform/models/
         
+      - name: Build dbt
+        run: dbt build
+
+      - name: Test dbt
+        run: dbt test
