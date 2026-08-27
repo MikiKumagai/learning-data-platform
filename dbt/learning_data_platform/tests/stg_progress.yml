@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: stg_progress
+    columns:
+      - name: task_id
+        data_tests:
+          - not_null
+
+      - name: progress_value
+        data_tests:
+          - not_null
+
+      - name: progress_date
+        data_tests:
+          - not_null

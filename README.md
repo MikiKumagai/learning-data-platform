@@ -6,7 +6,7 @@
 
 学習管理アプリでは、SQLiteに学習タスクや進捗データを保存しています。
 
-このプロジェクトでは、SQLiteに蓄積したデータをBigQueryに取り込み、SQLとdbtで複数のテーブルを結合・加工することで、分析しやすいデータを作成します。
+このプロジェクトでは、SQLiteに蓄積したデータをPythonでBigQueryにロードし、SQLとdbtで複数のテーブルを結合・加工することで、分析しやすいデータを作成します。
 
 ## Architecture
 
@@ -15,7 +15,7 @@ Learning Management App
         │
         │ SQLite
         ↓
-      CSV
+  Python Pipeline
         │
         ↓
     BigQuery
@@ -34,21 +34,21 @@ progress
    │
    │ task_id
    ↓
-tasks
+task
    │
-   ├── progress_type_id → progress_types
+   ├── progress_type_id → progress_type
    │
-   └── progress_unit_id → progress_units
+   └── progress_unit_id → progress_unit
 ```
 
 ### Tables
 
 | Table | Description |
 |---|---|
-| `tasks` | 学習タスク |
+| `task` | 学習タスク |
 | `progress` | タスクごとの進捗記録 |
-| `progress_types` | 進捗形式のマスタ（累計・差分） |
-| `progress_units` | 進捗単位のマスタ（ページ・問・章・セクション） |
+| `progress_type` | 進捗形式のマスタ（累計・差分） |
+| `progress_unit` | 進捗単位のマスタ（ページ・問・章・セクション） |
 
 ## Learning Progress
 
@@ -63,6 +63,26 @@ tasks
 - SQLを用いたデータ分析
 - データパイプラインの自動化
 - CI/CDによるデータ基盤の運用
+- データ品質管理・テスト
+
+## Pipeline
+
+`pipeline/` ディレクトリには、SQLiteからBigQueryへデータをロードするPythonスクリプトを置いています。
+
+```text
+pipeline/
+└── pipeline.py
+```
+
+SQLite側の `progresses` テーブルを読み込み、BigQuery側の `learning.progress` テーブルへロードします。
+
+必要な環境変数は `.env` に設定します。
+
+```text
+SQLITE_DB_PATH=/path/to/progress.db
+GCP_PROJECT_ID=learning-data-platform-505213
+BQ_DATASET=learning
+```
 
 ## SQL
 
@@ -84,6 +104,7 @@ sql/
 dbt/learning_data_platform/
 ├── dbt_project.yml
 └── models/
+    ├── analysis/
     ├── staging/
     ├── intermediate/
     └── marts/
@@ -91,11 +112,20 @@ dbt/learning_data_platform/
 
 セットアップと実行手順は `dbt/learning_data_platform/README.md` にまとめています。
 
+## Lint / CI
+
+SQLのlintにはSQLFluffを使用しています。
+
+```bash
+dbt/.venv/bin/sqlfluff lint dbt/learning_data_platform/models
+```
+
+GitHub Actionsでは、dbtの検証を実行するためのワークフローを管理しています。
+
 ## Future Plans
 
 - Pythonを用いたデータ分析・機械学習
 - AWSなどのクラウドサービスを利用したデータ基盤の構築
-- データ品質管理・テスト
 
 ## Background
 
