@@ -41,6 +41,7 @@ jobs:
       - name: Lint SQL
         run: sqlfluff lint dbt/learning_data_platform/models/
 
-      # dbt build
-      - name: Build dbt
-        run: dbt build
+      # dbt debug
+      - name: Debug dbt
+        run: dbt debug
+        working-directory: dbt/learning_data_platform
