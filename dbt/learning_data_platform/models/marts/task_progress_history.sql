@@ -25,14 +25,16 @@ task_calendar AS (
     SELECT
         task_id,
         task_name,
-        progress_date,
+        calendar_date AS progress_date,
         DATE_DIFF(
-            progress_date,
+            calendar_date,
             first_progress_date,
             DAY
         ) AS days_since_start
     FROM task_date_range,
-        UNNEST(GENERATE_DATE_ARRAY(first_progress_date, latest_progress_date)) AS progress_date
+        UNNEST(
+            GENERATE_DATE_ARRAY(first_progress_date, latest_progress_date)
+        ) AS calendar_date
 ),
 
 progress_history AS (
@@ -40,8 +42,8 @@ progress_history AS (
         c.task_id,
         c.task_name,
         c.progress_date,
-        COALESCE(p.daily_progress, 0) AS daily_progress,
         c.days_since_start,
+        COALESCE(p.daily_progress, 0) AS daily_progress,
         COUNTIF(COALESCE(p.daily_progress, 0) > 0) OVER (
             PARTITION BY c.task_id
             ORDER BY c.progress_date
@@ -49,8 +51,9 @@ progress_history AS (
         ) AS cumulative_learning_days
     FROM task_calendar AS c
     LEFT JOIN daily_progress_by_date AS p
-        ON c.task_id = p.task_id
-        AND c.progress_date = p.progress_date
+        ON
+            c.task_id = p.task_id
+            AND c.progress_date = p.progress_date
 )
 
 SELECT

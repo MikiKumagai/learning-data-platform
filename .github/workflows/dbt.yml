@@ -1,0 +1,73 @@
+name: dbt CI
+
+# トリガー
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  dbt:
+    # GitHubが用意したUbuntu上で下記を実行
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      # GitHubからコードを持ってくる
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      #  GCP認証
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: learning-data-platform-505213
+          workload_identity_provider: "projects/279583601831/locations/global/workloadIdentityPools/github/providers/github"
+          service_account: "github-actions@learning-data-platform-505213.iam.gserviceaccount.com"
+
+      # Python 3.13 を用意
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # dbt-bigquery をインストール
+      - name: Install tools
+        run: |
+          pip install dbt-bigquery
+          pip install sqlfluff sqlfluff-templater-dbt
+
+      # dbt version 確認
+      - name: Check dbt
+        run: dbt --version
+
+      # dbt profile 作成
+      - name: Create dbt profile
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << 'EOF'
+          learning_data_platform:
+            target: ci
+            outputs:
+              ci:
+                type: bigquery
+                method: oauth
+                project: learning-data-platform-505213
+                dataset: learning
+                threads: 1
+                location: asia-northeast2
+          EOF
+
+      # dbt debug
+      - name: Debug dbt
+        run: dbt debug
+        working-directory: dbt/learning_data_platform
+
+      # SQLのフォーマットチェック
+      - name: Lint SQL
+        run: sqlfluff lint dbt/learning_data_platform/models/
+        
