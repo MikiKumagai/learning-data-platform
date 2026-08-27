@@ -4,9 +4,9 @@
 
 SELECT
     task_name,
-    ROUND(progress_value / total_count, 4) AS progress_rate,
     progress_date,
-    progress_unit
+    progress_unit,
+    ROUND(progress_value / total_count, 4) AS progress_rate
 FROM {{ ref('int_learning_progress') }}
 
 QUALIFY ROW_NUMBER() OVER (

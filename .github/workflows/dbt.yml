@@ -12,6 +12,10 @@ jobs:
     # GitHubが用意したUbuntu上で下記を実行
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
       # GitHubからコードを持ってくる
       - name: Checkout
@@ -24,10 +28,19 @@ jobs:
           python-version: "3.13"
 
       # dbt-bigquery をインストール
-      - name: Install dbt
+      - name: Install tools
         run: |
           pip install dbt-bigquery
+          pip install sqlfluff sqlfluff-templater-dbt
 
       # dbt --version 確認
       - name: Check dbt
         run: dbt --version
+      
+      # SQLのフォーマットチェック
+      - name: Lint SQL
+        run: sqlfluff lint dbt/learning_data_platform/models/
+
+      # dbt build
+      - name: Build dbt
+        run: dbt build

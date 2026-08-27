@@ -1,0 +1,6 @@
+[sqlfluff]
+dialect = bigquery
+templater = dbt
+
+[sqlfluff:templater:dbt]
+project_dir = dbt/learning_data_platform
