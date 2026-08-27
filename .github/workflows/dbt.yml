@@ -21,6 +21,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      #  GCP認証
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: learning-data-platform-505213
+          workload_identity_provider: "projects/279583601831/locations/global/workloadIdentityPools/github/providers/github"
+          service_account: "github-actions@learning-data-platform-505213.iam.gserviceaccount.com"
+
       # Python 3.13 を用意
       - name: Set up Python
         uses: actions/setup-python@v5
