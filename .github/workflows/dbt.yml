@@ -49,6 +49,23 @@ jobs:
       - name: Lint SQL
         run: sqlfluff lint dbt/learning_data_platform/models/
 
+      # dbt profile 作成
+      - name: Create dbt profile
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << 'EOF'
+          learning_data_platform:
+            target: ci
+            outputs:
+              ci:
+                type: bigquery
+                method: oauth
+                project: learning-data-platform-505213
+                dataset: learning
+                threads: 1
+                location: asia-northeast2
+          EOF
+
       # dbt debug
       - name: Debug dbt
         run: dbt debug
