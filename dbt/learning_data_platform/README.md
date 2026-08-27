@@ -6,6 +6,7 @@
 
 ```text
 models/
+├── analysis/      # 学習ペースなど、探索的な分析モデル
 ├── staging/       # BigQueryのsourceテーブルを整える層
 ├── intermediate/  # 分析用の中間集計・結合
 └── marts/         # 利用しやすい最終テーブル
@@ -54,4 +55,12 @@ dbt test
 
 ```bash
 dbt --project-dir dbt/learning_data_platform run
+```
+
+## Lint
+
+リポジトリ直下からSQLFluffを実行します。
+
+```bash
+dbt/.venv/bin/sqlfluff lint dbt/learning_data_platform/models
 ```
