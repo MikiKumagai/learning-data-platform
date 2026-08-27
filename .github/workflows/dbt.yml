@@ -71,6 +71,8 @@ jobs:
         
       - name: Build dbt
         run: dbt build
+        working-directory: dbt/learning_data_platform
 
       - name: Test dbt
         run: dbt test
+        working-directory: dbt/learning_data_platform
