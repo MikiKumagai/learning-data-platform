@@ -25,6 +25,17 @@ Learning Management App
   Analysis-ready Data
 ```
 
+## Responsibilities
+
+このリポジトリでは、各レイヤーの責務を次のように分けています。
+
+| Layer | Responsibility |
+|---|---|
+| Terraform | GCP API、BigQuery dataset、service account、IAM、Workload Identity Federationを管理 |
+| Python Pipeline | SQLiteからBigQuery source tableへのデータロードとschema指定 |
+| dbt | BigQuery上のデータ変換、分析用view / table、データテストを管理 |
+| SQL | dbt導入前に使った練習・確認用SQLを保存 |
+
 ## Data Model
 
 BigQueryには、学習管理アプリのデータ構造をもとに以下のテーブルを作成しています。
@@ -64,6 +75,7 @@ task
 - データパイプラインの自動化
 - CI/CDによるデータ基盤の運用
 - データ品質管理・テスト
+- TerraformによるGCP / BigQueryリソース管理
 
 ## Pipeline
 
@@ -111,6 +123,22 @@ dbt/learning_data_platform/
 ```
 
 セットアップと実行手順は `dbt/learning_data_platform/README.md` にまとめています。
+
+## Terraform
+
+`terraform/` ディレクトリでは、GCP / BigQuery の基盤を管理します。
+
+```text
+terraform/
+├── apis.tf
+├── bigquery.tf
+├── iam.tf
+├── providers.tf
+├── variables.tf
+└── versions.tf
+```
+
+詳しい手順は `terraform/README.md` にまとめています。
 
 ## Lint / CI
 

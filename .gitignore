@@ -1,4 +1,32 @@
 .DS_Store
-logs/
-.venv/
+
+# Environment variables / local secrets
 .env
+.env.*
+!.env.example
+*credentials*.json
+*service-account*.json
+*-key.json
+gcp-key.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# dbt
+logs/
+target/
+dbt_packages/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
