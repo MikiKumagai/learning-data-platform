@@ -1,6 +1,6 @@
 # learning_data_platform dbt Project
 
-学習管理アプリのデータをBigQuery上で分析しやすい形に変換するためのdbtプロジェクトです。
+学習管理アプリのデータをBigQuery上で分析しやすい形に変換するためのdbtプロジェクト。
 
 ## Structure
 
@@ -12,11 +12,11 @@ models/
 └── marts/         # 利用しやすい最終テーブル
 ```
 
-sourceテーブルは `models/sources.yml` で定義しています。
+sourceテーブルは `models/sources.yml` で定義
 
 ## Setup
 
-リポジトリ直下から以下を実行します。
+リポジトリ直下から以下を実行
 
 ```bash
 cd dbt
@@ -25,7 +25,7 @@ source .venv/bin/activate
 python -m pip install dbt-bigquery
 ```
 
-BigQuery接続用に `~/.dbt/profiles.yml` を設定します。
+BigQuery接続用に `~/.dbt/profiles.yml` を設定
 
 ```yaml
 learning_data_platform:
@@ -42,7 +42,7 @@ learning_data_platform:
 
 ## Commands
 
-`dbt_project.yml` があるこのディレクトリで実行します。
+`dbt_project.yml` があるこのディレクトリで実行
 
 ```bash
 source ../.venv/bin/activate
@@ -51,7 +51,7 @@ dbt run
 dbt test
 ```
 
-リポジトリ直下で実行したい場合は、`--project-dir` を指定します。
+リポジトリ直下で実行したい場合は、`--project-dir` を指定
 
 ```bash
 dbt --project-dir dbt/learning_data_platform run
@@ -59,7 +59,7 @@ dbt --project-dir dbt/learning_data_platform run
 
 ## Lint
 
-リポジトリ直下からSQLFluffを実行します。
+リポジトリ直下からSQLFluffを実行
 
 ```bash
 dbt/.venv/bin/sqlfluff lint dbt/learning_data_platform/models
