@@ -1,11 +1,9 @@
+# BigQueryリソースを管理
 resource "google_bigquery_dataset" "learning" {
-  dataset_id                      = var.dataset_id
-  project                         = var.project_id
-  location                        = var.bigquery_location
-  description                     = "Dataset for learning management app analytics."
-  default_partition_expiration_ms = 5184000000
-  default_table_expiration_ms     = 5184000000
-  delete_contents_on_destroy      = false
+  dataset_id  = var.dataset_id
+  project     = var.project_id
+  location    = var.bigquery_location
+  description = "学習管理アプリの分析用dataset"
 
   labels = {
     project = "learning-data-platform"
