@@ -10,6 +10,10 @@ resource "google_bigquery_dataset" "learning" {
     layer   = "analytics"
   }
 
+  # 無料枠はデフォルトで60日でのデータ削除が必須
+  default_partition_expiration_ms = 5184000000
+  default_table_expiration_ms     = 5184000000
+
   depends_on = [
     google_project_service.project_services["bigquery.googleapis.com"],
   ]
