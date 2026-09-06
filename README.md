@@ -1,12 +1,12 @@
 # Learning Data Platform
 
-個人開発している学習管理アプリのデータを利用して、データ基盤の構築・運用について学ぶための個人プロジェクトです。
+個人開発した学習管理アプリのデータを利用して、データ基盤の構築・運用について学ぶための個人プロジェクト。
 
 ## 概要
 
-学習管理アプリでは、SQLiteに学習タスクや進捗データを保存しています。
+学習管理アプリでは、SQLiteに学習タスクや進捗データを保存している。
 
-このプロジェクトでは、SQLiteに蓄積したデータをPythonでBigQueryにロードし、SQLとdbtで複数のテーブルを結合・加工することで、分析しやすいデータを作成します。
+このプロジェクトでは、SQLiteに蓄積したデータをPythonでBigQueryにロードし、SQLとdbtで複数のテーブルを結合・加工し、分析しやすいデータを作成する。
 
 ## Architecture
 
@@ -25,9 +25,20 @@ Learning Management App
   Analysis-ready Data
 ```
 
+## Responsibilities
+
+各レイヤーの責務
+
+| Layer | Responsibility |
+|---|---|
+| Terraform | GCP API、BigQuery dataset、service account、IAM、Workload Identity Federationを管理 |
+| Python Pipeline | SQLiteからBigQuery source tableへのデータロードとschema指定 |
+| dbt | BigQuery上のデータ変換、分析用view / table、データテストを管理 |
+| SQL | dbt導入前に使った練習・確認用SQLを保存 |
+
 ## Data Model
 
-BigQueryには、学習管理アプリのデータ構造をもとに以下のテーブルを作成しています。
+BigQueryのテーブル構成
 
 ```text
 progress
@@ -64,19 +75,20 @@ task
 - データパイプラインの自動化
 - CI/CDによるデータ基盤の運用
 - データ品質管理・テスト
+- TerraformによるGCP / BigQueryリソース管理
 
 ## Pipeline
 
-`pipeline/` ディレクトリには、SQLiteからBigQueryへデータをロードするPythonスクリプトを置いています。
+`pipeline/` ディレクトリには、SQLiteからBigQueryへデータをロードするPythonスクリプトを配置
 
 ```text
 pipeline/
 └── pipeline.py
 ```
 
-SQLite側の `progresses` テーブルを読み込み、BigQuery側の `learning.progress` テーブルへロードします。
+SQLite側の `progresses` テーブルを読み込み、BigQuery側の `learning.progress` テーブルへロード
 
-必要な環境変数は `.env` に設定します。
+必要な環境変数は `.env` に設定
 
 ```text
 SQLITE_DB_PATH=/path/to/progress.db
@@ -86,8 +98,8 @@ BQ_DATASET=learning
 
 ## SQL
 
-`sql/` ディレクトリにBigQueryで使用したSQLを保存しています。
-dbt導入前の練習SQLです。
+`sql/` ディレクトリにBigQueryで使用したSQLを保存
+dbt導入前の練習SQL。
 
 ```text
 sql/
@@ -98,7 +110,7 @@ sql/
 
 ## dbt
 
-`dbt/learning_data_platform/` ディレクトリにdbtプロジェクトを配置しています。
+`dbt/learning_data_platform/` ディレクトリにdbtプロジェクトを配置
 
 ```text
 dbt/learning_data_platform/
@@ -110,17 +122,33 @@ dbt/learning_data_platform/
     └── marts/
 ```
 
-セットアップと実行手順は `dbt/learning_data_platform/README.md` にまとめています。
+セットアップと実行手順は `dbt/learning_data_platform/README.md` に記載
+
+## Terraform
+
+`terraform/` ディレクトリでは、GCP / BigQuery の基盤を管理
+
+```text
+terraform/
+├── apis.tf
+├── bigquery.tf
+├── iam.tf
+├── providers.tf
+├── variables.tf
+└── versions.tf
+```
+
+詳しい手順は `terraform/README.md` に記載
 
 ## Lint / CI
 
-SQLのlintにはSQLFluffを使用しています。
+SQLのlintにはSQLFluffを使用
 
 ```bash
 dbt/.venv/bin/sqlfluff lint dbt/learning_data_platform/models
 ```
 
-GitHub Actionsでは、dbtの検証を実行するためのワークフローを管理しています。
+GitHub Actionsでは、dbtの検証を実行するためのワークフローを管理
 
 ## Future Plans
 
@@ -131,4 +159,4 @@ GitHub Actionsでは、dbtの検証を実行するためのワークフローを
 
 Webアプリケーション開発の経験に加えて、データを扱うことへの関心が強くなったことから、データエンジニアリング領域への理解を深めるために本プロジェクトを始めました。
 
-実際に個人開発で蓄積したデータを利用しながら、データの取り込み・変換・蓄積・分析までの流れを実践的に学んでいきます。
+実際に個人開発で蓄積したデータを利用しながら、データの取り込み・変換・蓄積・分析までの流れを実践的に学んでいく。

@@ -1,0 +1,6 @@
+project_id        = "learning-data-platform-505213"
+region            = "asia-northeast2"
+bigquery_location = "asia-northeast2"
+dataset_id        = "learning"
+github_repository = "MikiKumagai/learning-data-platform"
+
