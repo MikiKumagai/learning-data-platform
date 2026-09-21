@@ -11,6 +11,7 @@ Terraformでは、次のGCP / BigQuery基盤を管理
 - 必要なGCP API
 - data pipeline用 service account
 - GitHub Actions用 service account
+- Metabase用 service account と BigQuery 参照権限
 - BigQuery実行・編集に必要なIAM
 - GitHub Actions用 Workload Identity Federation
 

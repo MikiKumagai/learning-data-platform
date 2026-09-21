@@ -138,6 +138,12 @@ terraform/
 
 詳しい手順は `terraform/README.md` に記載
 
+## Metabase
+
+BigQueryの学習データをMetabaseで可視化する。Docker Desktopを起動し、初回は次のコマンドでMetabaseを起動する。
+
+初回セットアップ、専用サービスアカウントの作成と接続設定は [Metabase接続手順](docs/metabase.md) を参照。
+
 ## Lint / CI
 
 SQLのlintにはSQLFluffを使用

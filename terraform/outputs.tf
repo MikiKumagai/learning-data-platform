@@ -1,5 +1,10 @@
 # 作成したリソースの値を外部へ出力
 
+output "metabase_service_account_email" {
+  description = "Metabase用サービスアカウントのメールアドレス"
+  value       = google_service_account.metabase.email
+}
+
 output "project_id" {
   description = "このTerraformで管理するGCPプロジェクトID"
   value       = var.project_id
